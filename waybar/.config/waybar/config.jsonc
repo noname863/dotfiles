@@ -69,13 +69,13 @@
     },
     "custom/scratchpad-arrow": {
 	"hide-empty-text": false,
-	"exec": "~/.local/bin/scratchpad_watcher",
+	"exec": "~/.local/bin/scratchpad_watcher.sh",
         "format": "{}",
         "tooltip": false
     },
     "custom/mode-arrow": {
         "hide-empty-text": false,
-	"exec": "~/.local/bin/mode_watcher",
+	"exec": "~/.local/bin/mode_watcher.sh",
 	"format": "{}",
 	"tooltip": false
     },

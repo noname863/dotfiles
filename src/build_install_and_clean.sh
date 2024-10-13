@@ -25,7 +25,8 @@ cmake --build build
 # install
 cmake --install build
 
-clean
+# clean
+
 deactivate
 rm -rf .venv
 rm -rf .conan
