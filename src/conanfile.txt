@@ -1,0 +1,8 @@
+[requires]
+simdjson/3.10.0
+
+[generators]
+CMakeDeps
+
+[options]
+simdjson*:shared=True

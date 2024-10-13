@@ -69,13 +69,13 @@
     },
     "custom/scratchpad-arrow": {
 	"hide-empty-text": false,
-	"exec": "/home/pavel/Projects/SwayPlugins/build/bin/scratchpad_watcher",
+	"exec": "~/.local/bin/scratchpad_watcher",
         "format": "{}",
         "tooltip": false
     },
     "custom/mode-arrow": {
         "hide-empty-text": false,
-	"exec": "/home/pavel/Projects/SwayPlugins/build/bin/mode_watcher",
+	"exec": "~/.local/bin/mode_watcher",
 	"format": "{}",
 	"tooltip": false
     },

@@ -1,0 +1,4 @@
+src/build
+src/.*
+*/.local/bin
+*/.local/lib
