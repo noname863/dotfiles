@@ -200,7 +200,6 @@ int main()
         }
     }
 
-
     auto disconnect_result = ipc.disconnect();
     if (!disconnect_result.has_value())
     {
@@ -208,3 +207,4 @@ int main()
         return disconnect_result.error().error_code;
     }
 }
+

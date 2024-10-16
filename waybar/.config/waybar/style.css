@@ -1,6 +1,6 @@
 /*  'Font Awesome 6 Free', 'Font Awesome 6 Brands', monospace; */
 * {
-    font-family: 'DejaVu Sans Mono', 'Font Awesome 6 Free', 'Font Awesome 6 Brands', monospace;
+    font-family: 'DejaVuSansM Nerd Font Propo';
     font-size: 13px;
     margin: 0px 0px 0px 0px;
 }
@@ -10,7 +10,7 @@
 #custom-left-arrow-dark,
 #custom-left-arrow-light,
 #custom-mode-arrow {
-	padding: 3px 0px 0px 0px;
+	/* padding: 3px 0px 0px 0px; */
 	margin: 0px 0px 0px 0px;
 	font-size: 25px;
 }
