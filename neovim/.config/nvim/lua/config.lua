@@ -1,9 +1,14 @@
 -- line info
-vim.wo.relativenumber = true
-vim.wo.number = true
+vim.o.relativenumber = true
+vim.o.number = true
+vim.g.netrw_bufsettings="noma nomod nu nobl nowrap ro rnu"
+
+-- line limit
+vim.o.colorcolumn = "80"
 
 -- tabs
 vim.o.softtabstop=4
 vim.o.shiftwidth=4
 vim.o.expandtab=true
+
 

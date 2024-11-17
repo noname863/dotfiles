@@ -13,6 +13,20 @@ return {
             function() builtin.grep_string({ search = vim.fn.input("Grep > ") }); end,
             { desc = 'Telescope search files' })
         vim.keymap.set('n', '<C-s>', builtin.live_grep, { desc = 'Telescope search files in project' })
+        vim.keymap.set('n', '<C-g>',
+            function()
+                builtin.lsp_references({ show_line = false })
+            end,
+            { desc = 'Telescope references' })
+        vim.keymap.set('n', '<C-t>',
+            function()
+                builtin.lsp_dynamic_workspace_symbols(
+                {
+                    fname_width = 0,
+                    ignore_symbols = "field"
+                })
+            end,
+            { desc = 'Telescope search in references'} );
     end
 }
 
