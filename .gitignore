@@ -2,3 +2,4 @@ src/build
 src/.*
 */.local/bin
 */.local/lib
+neovim/.config/nvim/lazy-lock.json
