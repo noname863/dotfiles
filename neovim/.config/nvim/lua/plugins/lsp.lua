@@ -127,6 +127,10 @@ return {
                     vim.keymap.set('n', '<M-o>',
                         '<cmd>ClangdSwitchSourceHeader<cr>', {})
                 end
+                if client.supports_method('textDocument/rename') then
+                    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, {})
+                    vim.keymap.set('n', 'grr', vim.lsp.buf.rename, {})
+                end
             end,
         })
 
