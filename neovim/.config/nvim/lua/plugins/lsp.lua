@@ -14,56 +14,7 @@ return {
 
     lazy = false,
 
-    -- init = function()
-    --     vim.g.coq_settings = {
-    --         auto_start = "shut-up",
-    --         completion = {
-    --             always = true,
-    --             smart = true,
-    --         },
-    --         keymap = {
-    --             pre_select = true,
-    --             recommended = false,
-    --         },
-    --         display = {
-    --             ghost_text = {
-    --                 enabled = false,
-    --             },
-    --         },
-    --         clients = {
-    --             tags = {
-    --                 enabled = false,
-    --             },
-    --             snippets = {
-    --                 enabled = false,
-    --             },
-    --             paths = {
-    --                 enabled = false,
-    --             },
-    --             tree_sitter = {
-    --                 enabled = false,
-    --             },
-    --             buffers = {
-    --                 enabled = false,
-    --             },
-    --             registers = {
-    --                 enabled = false,
-    --             },
-    --             tmux = {
-    --                 enabled = false,
-    --             },
-    --             tabnine = {
-    --                 enabled = false,
-    --             },
-    --         },
-    --         limits = {
-    --             completion_auto_timeout = 0
-    --         }
-    --     }
-    -- end,
-
     config = function()
-
         require("mason").setup()
 
         local lspconfig = require("lspconfig")
@@ -95,7 +46,7 @@ return {
                         capabilities = capabilities,
                         settings = {
                             Lua = {
-                                runtime = { version = "Lua 5.4" },
+                                runtime = { version = "Lua 5.1" },
                                 diagnostics = {
                                     globals = { "bit", "vim", "it", "describe",
                                         "before_each", "after_each"},
@@ -134,8 +85,6 @@ return {
             end,
         })
 
-        -- local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
         cmp.setup(
         {
             performance = {
@@ -156,20 +105,5 @@ return {
                 { name = "nvim_lsp_signature_help", },
             }),
         })
-
-        -- vim.api.nvim_set_keymap('i', '<Esc>', [[pumvisible() ? "\<C-e><Esc>" : "\<Esc>"]],
-        --     { expr = true, silent = true })
-        -- vim.api.nvim_set_keymap('i', '<C-c>', [[pumvisible() ? "\<C-e><C-c>" : "\<C-c>"]],
-        --     { expr = true, silent = true })
-        -- vim.api.nvim_set_keymap('i', '<BS>', [[pumvisible() ? "\<C-e><BS>" : "\<BS>"]],
-        --     { expr = true, silent = true })
-        -- vim.api.nvim_set_keymap(
-        --   "i",
-        --   "<Tab>",
-        --   [[pumvisible() ? (complete_info().selected == -1 ? "\<C-e><Tab>" : "\<C-y>") : "\<Tab>"]],
-        --   { expr = true, silent = true }
-        -- )
-        -- I hate this
-        -- vim.api.nvim_set_keymap('i', '.', '<cmd>lua vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(".<C-x><C-u><C-e>", true, false, true), "n", true)<CR>', { noremap = true })
     end,
 }
