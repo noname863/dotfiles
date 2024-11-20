@@ -4,12 +4,28 @@ return {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
 
-        -- { "ms-jpq/coq_nvim", branch = "coq" },
-        -- { "ms-jpq/coq.thirdparty", branch = "3p" }
+        {
+            "saghen/blink.cmp",
+            lazy = false,
 
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-nvim-lsp-signature-help",
-        "hrsh7th/nvim-cmp",
+            version = 'v0.5.1',
+
+            -- dependencies = 'rafamadriz/friendly-snippets',
+            opts = {
+                keymap = { preset = 'super-tab' },
+
+                highlight = {
+                    use_nvim_cmp_as_default = true,
+                },
+
+                nerd_font_variant = 'normal',
+
+                trigger = { signature_help = { enabled = true } }
+            },
+        }
+        -- "hrsh7th/cmp-nvim-lsp",
+        -- "hrsh7th/cmp-nvim-lsp-signature-help",
+        -- "hrsh7th/nvim-cmp",
     },
 
     lazy = false,
@@ -19,8 +35,8 @@ return {
 
         local lspconfig = require("lspconfig")
         -- local coq = require("coq")
-        local cmp = require("cmp")
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        -- local cmp = require("cmp")
+        local capabilities = require("blink.cmp").get_lsp_capabilities()
 
         require("mason-lspconfig").setup({
             ensure_installed = {
@@ -30,6 +46,7 @@ return {
             },
             handlers = {
                 function(server_name) -- default handler
+
                     lspconfig[server_name].setup({
                         capabilities = capabilities
                     })
@@ -85,25 +102,25 @@ return {
             end,
         })
 
-        cmp.setup(
-        {
-            performance = {
-                max_view_entries = 20
-            },
-            completion = {
-                completeopt = "menu,menuone,noinsert"
-            },
-            -- preselect = cmp.PreselectMode.Item,
-            mapping = cmp.mapping.preset.insert({
-                -- ['<Tab>'] = cmp.mapping.select_prev_item(cmp_select),
-                -- ['<S-Tab>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-                ['<Enter>'] = cmp.mapping.confirm({ select = true }),
-            });
-            sources = cmp.config.sources({
-                { name = "nvim_lsp", },
-                { name = "nvim_lsp_signature_help", },
-            }),
-        })
+        -- cmp.setup(
+        -- {
+        --     performance = {
+        --         max_view_entries = 20
+        --     },
+        --     completion = {
+        --         completeopt = "menu,menuone,noinsert"
+        --     },
+        --     -- preselect = cmp.PreselectMode.Item,
+        --     mapping = cmp.mapping.preset.insert({
+        --         -- ['<Tab>'] = cmp.mapping.select_prev_item(cmp_select),
+        --         -- ['<S-Tab>'] = cmp.mapping.select_next_item(cmp_select),
+        --         ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+        --         ['<Enter>'] = cmp.mapping.confirm({ select = true }),
+        --     });
+        --     sources = cmp.config.sources({
+        --         { name = "nvim_lsp", },
+        --         { name = "nvim_lsp_signature_help", },
+        --     }),
+        -- })
     end,
 }
