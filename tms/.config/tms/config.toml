@@ -1,0 +1,10 @@
+default_session = "root_session"
+
+[[search_dirs]]
+path = "/home/pavel/.dotfiles"
+depth = 1
+
+[[search_dirs]]
+path = "/home/pavel/Projects"
+depth = 10
+
