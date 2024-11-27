@@ -1,5 +1,6 @@
 #include <sway_ipc/sway_ipc.hpp>
 #include "print_error.hpp"
+#include "sway_ipc/events/event_type.hpp"
 #include <print>
 
 namespace
@@ -31,16 +32,26 @@ bool event_callback(sway::ipc::event_result event_result)
 {
     if (!event_result.has_value())
     {
-        sway::error_desc& error = event_result.error();
-        std::println(stderr, "[ModeTracker] [Error] {}, error code: {}",
-            error.error_description, error.error_code);
-        return false;
+        const sway::error_desc& error = event_result.error();
+        if (error.error_source == sway::error_desc::error_source::posix ||
+            error.error_source == sway::error_desc::error_source::invalid)
+        {
+            return true;
+        }
+        else
+        {
+            std::println(stderr, "[ModeTracker] [Error] {}, error code: {}",
+                error.error_description, error.error_code);
+            return false;
+        }
     }
     switch (event_result->event_type)
     {
         case sway::event_type::mode:
             mode_callback(std::move(event_result->json));
             return false;
+        case sway::event_type::shutdown:
+            return true;
         default:
             return false;
     }
@@ -61,7 +72,7 @@ int main()
     // not subscribing to shutdown, because expecting that waybar subscribed to it instead
     std::vector<sway::event_type> events = {sway::event_type::mode};
 
-    sway::ipc::subscribe_result subscribe_result = ipc.subscribe(events, event_callback);
+    sway::ipc::subscribe_result subscribe_result = ipc.subscribe(events, event_callback, true);
 
     if (!subscribe_result.subscription_successful)
     {

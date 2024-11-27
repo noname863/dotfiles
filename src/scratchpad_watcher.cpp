@@ -1,5 +1,6 @@
 #include <sway_ipc/sway_ipc.hpp>
 #include "print_error.hpp"
+#include "sway_ipc/events/event_type.hpp"
 #include <print>
 
 namespace
@@ -54,9 +55,6 @@ std::expected<bool, sway::error_desc> is_scratchpad_empty(sway::ipc& ipc)
     if (!get_tree_result.has_value())
     {
         return std::unexpected(std::move(get_tree_result.error()));
-        // sway::error_desc& error = get_tree_result.error();
-        // std::println(stderr, "[ScratchpadTracker] [Error] parsing error "
-            // "when getting tree: {}, error code {}", error.error_description, static_cast<int>(error.error_code));
     }
 
     simdjson::simdjson_result<simdjson::ondemand::value> i3_root = find_if(get_tree_result->find_field("nodes").get_array(),
@@ -114,15 +112,25 @@ bool event_callback(sway::ipc::event_result event_result)
 {
     if (!event_result.has_value())
     {
-        sway::error_desc& error = event_result.error();
-        std::println(stderr, "[ModeTracker] [Error] {}, error code: {}",
-            error.error_description, error.error_code);
-        return false;
+        const sway::error_desc& error = event_result.error();
+        if (error.error_source == sway::error_desc::error_source::posix ||
+            error.error_source == sway::error_desc::error_source::invalid)
+        {
+            return true;
+        }
+        else
+        {
+            std::println(stderr, "[ModeTracker] [Error] {}, error code: {}",
+                error.error_description, error.error_code);
+            return false;
+        }
     }
     switch (event_result->event_type)
     {
         case sway::event_type::window:
             return window_event_callback(std::move(event_result->json));
+        case sway::event_type::shutdown:
+            return true;
         default:
             return false;
     }

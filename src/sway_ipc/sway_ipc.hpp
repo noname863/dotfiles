@@ -167,7 +167,7 @@ private:
         bool operator<=>(const nullable_fd&) const = default;
     };
 
-    struct socket_close
+    struct posix_close
     {
         using pointer = nullable_fd;
 
@@ -176,7 +176,8 @@ private:
         bool print_errors_on_destroy = false;
     };
 
-    std::unique_ptr<nullable_fd, socket_close> _socket;
+    std::unique_ptr<nullable_fd, posix_close> _socket;
+    // std::unique_ptr<nullable_fd, posix_close> _log_file;
 
     sized_buffer _read_buffer;
     sized_buffer _write_buffer;

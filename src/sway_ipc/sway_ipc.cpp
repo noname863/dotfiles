@@ -6,6 +6,7 @@
 #include <memory>
 #include <ranges>
 #include <unistd.h>
+#include <fcntl.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 
@@ -266,7 +267,7 @@ std::expected<void, sway::error_desc> blocking_read(int sock_fd, void* ptr, size
         if (result == -1)
         {
             return std::unexpected(sway::error_desc(
-                std::format("Error when writing sway response: {}", strerror(errno))
+                std::format("Error when reading sway response: {}", strerror(errno))
             ));
         }
         n -= result;
@@ -456,7 +457,8 @@ error_desc::error_desc(simdjson::error_code error_code, std::string error_descri
 
 ipc::ipc(simdjson::ondemand::parser& parser, bool print_errors_on_destroy /*= false*/)
     : _parser(parser)
-    , _socket(nullptr, socket_close{print_errors_on_destroy})
+    , _socket(nullptr, posix_close{print_errors_on_destroy})
+    // , _log_file(open_log_file(), posix_close{print_errors_on_destroy})
 {
 }
 
@@ -465,16 +467,16 @@ ipc::~ipc()
     _socket.reset();
 }
 
-void ipc::socket_close::operator()(nullable_fd sock_fd)
+void ipc::posix_close::operator()(nullable_fd fd)
 {
-    if (sock_fd) [[likely]]
+    if (fd) [[likely]]
     {
-        if (::close(sock_fd) && this->print_errors_on_destroy)
+        if (::close(fd) && this->print_errors_on_destroy)
         {
-            std::println(stderr, "[sway::ipc] Error encountered when disconnecting "
-                "from sway socket. error code {}: {}", errno, strerror(errno));
+            std::println(stderr, "[sway::ipc] Error encountered when closing socket "
+                "error code {}: {}", errno, strerror(errno));
         }
-        sock_fd = 0;
+        fd = 0;
     }
 }
 
